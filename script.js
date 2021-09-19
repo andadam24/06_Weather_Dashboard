@@ -2,9 +2,9 @@ var cityInput = document.querySelector('#city-input');
 var cityBtn = document.querySelector('#search-btn');
 var cityNameEl = document.querySelector('#city-name');
 var cityArr = [];
-var apiKey = 'babab1286e896abbf2b3fbf496f8054549'
+var apiKey = 'bab1286e896abbf2b3fbf496f8054549'
 
-var handler = function(event) {
+var formHandler = function(event) {
     var selectedCity = cityInput
         .value
         .trim()
@@ -22,14 +22,14 @@ var handler = function(event) {
 };
 
 var coordinates = function(city) {
-    var currentWeatherApi = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
+    var currentWeatherApi = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
 
     fetch(currentWeatherApi).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                var long = data.coord['long'];
+                var lon = data.coord['lon'];
                 var lat = data.coord['lat'];
-                cityForecast(city, long, lat);
+                cityForecast(city, lon, lat);
 
                 if (document.querySelector('.city-list')) {
                     document.querySelector('.city-list').remove();
@@ -47,8 +47,8 @@ var coordinates = function(city) {
     })
 };
 
-var cityForecast = function(city, long, lat) {
-    var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=imperial&exclude=minutely,hourly,alerts&appid=${apiKey}`;
+var cityForecast = function(city, lon, lat) {
+    var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly,alerts&appid=${apiKey}`;
     fetch(oneCallApi).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -172,7 +172,6 @@ var selectRecent = function(event) {
 loadCities();
 cityBtn.addEventListener('click', formHandler)
 
-// searches for city on ENTER key
 cityInput.addEventListener('keyup', function(event) {
     if (event.keyCode === 13) {
         cityBtn.click();
