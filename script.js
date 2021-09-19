@@ -17,6 +17,6 @@ var Handler = function(event) {
         getCoords(selectedCity);
         cityInput.value = '';
     } else {
-        alert('Please enter a city!');
+        alert('Pick a city!');
     };
 };
