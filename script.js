@@ -45,7 +45,7 @@ var coordinates = function(city) {
     .catch(function(error) {
         alert('Unable to load.');
     })
-}
+};
 
 var cityForecast = function(city, long, lat) {
     var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=imperial&exclude=minutely,hourly,alerts&appid=${apiKey}`;
@@ -62,4 +62,43 @@ var cityForecast = function(city, long, lat) {
             });
         }
     })
-}
+};
+
+var temperature = function(element, temperature) {
+    var tempEl = document.querySelector(element);
+    var elementText = Math.round(temperature);
+    tempEl.textContent = elementText;
+};
+
+var currentForecast = function(forecast) {
+    
+    var forecastEl = document.querySelector('.city-forecast');
+    forecastEl.classList.remove('hide');
+
+    var weatherIconEl = document.querySelector('#today-icon');
+    var currentIcon = forecast.current.weather[0].icon;
+    weatherIconEl.setAttribute('src', `http://openweathermap.org/img/wn/${currentIcon}.png`);
+    weatherIconEl.setAttribute('alt', forecast.current.weather[0].main)
+
+    displayTemp('#current-temp', forecast.current['temp']);
+    displayTemp('#current-feels-like', forecast.current['feels_like']);
+    displayTemp('#current-high', forecast.daily[0].temp.max);
+    displayTemp('#current-low', forecast.daily[0].temp.min);
+
+    var currentConditionEl = document.querySelector('#current-condition');
+    currentConditionEl.textContent = forecast.current.weather[0].description
+        .split(' ')
+        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        .join(' ');
+
+    var currentHumidityEl = document.querySelector('#current-humidity');
+    currentHumidityEl.textContent = forecast.current['humidity'];
+
+    var currentWindEl = document.querySelector('#current-wind-speed')
+    currentWindEl.textContent = forecast.current['wind_speed'];
+
+    var uviEl = document.querySelector('#current-uvi')
+    var currentUvi = forecast.current['uvi'];
+    uviEl.textContent = currentUvi;
+
+};
