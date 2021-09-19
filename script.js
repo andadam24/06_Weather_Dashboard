@@ -2,7 +2,7 @@ var cityInput = document.querySelector('#city-input');
 var cityBtn = document.querySelector('#search-btn');
 var cityNameEl = document.querySelector('#city-name');
 var cityArr = [];
-var apiKey = 'bab1286e896abbf2b3fbf496f8054549'
+var apiKey = 'babab1286e896abbf2b3fbf496f8054549'
 
 var handler = function(event) {
     var selectedCity = cityInput
@@ -27,7 +27,7 @@ var coordinates = function(city) {
     fetch(currentWeatherApi).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                var lon = data.coord['long'];
+                var long = data.coord['long'];
                 var lat = data.coord['lat'];
                 cityForecast(city, long, lat);
 
@@ -121,4 +121,60 @@ var fiveDayForecast = function(forecast) {
         var humidity = document.querySelector('#humidity-' + i);
         humidity.textContent = forecast.daily[i].humidity;
     }
+};
+
+var saveCity = function(city) {
+
+    for (var i = 0; i < cityArr.length; i++) {
+        if (city === cityArr[i]) {
+            cityArr.splice(i, 1);
+        }
+    }
+
+    cityArr.push(city);
+    localStorage.setItem('cities', JSON.stringify(cityArr));
+};
+
+var loadCities = function() {
+    cityArr = JSON.parse(localStorage.getItem('cities'));
+
+    if (!cityArr) {
+        cityArr = [];
+        return false;
+    } else if (cityArr.length > 7) {
+        cityArr.shift();
+    }
+
+    var recent = document.querySelector('#recent-cities');
+    var cityListUl = document.createElement('ul');
+    cityListUl.className = 'list-group list-group-flush city-list';
+    recent.appendChild(cityListUl);
+
+    for (var i = 0; i < cityArr.length; i++) {
+        var cityListItem = document.createElement('button');
+        cityListItem.setAttribute('type', 'button');
+        cityListItem.className = 'list-group-item';
+        cityListItem.setAttribute('value', cityArr[i]);
+        cityListItem.textContent = cityArr[i];
+        cityListUl.prepend(cityListItem);
+    }
+
+    var cityList = document.querySelector('.city-list');
+    cityList.addEventListener('click', selectRecent)
+};
+
+var selectRecent = function(event) {
+    var clickedCity = event.target.getAttribute('value');
+
+    coordinates(clickedCity);
 }
+
+loadCities();
+cityBtn.addEventListener('click', formHandler)
+
+// searches for city on ENTER key
+cityInput.addEventListener('keyup', function(event) {
+    if (event.keyCode === 13) {
+        cityBtn.click();
+    }
+});
