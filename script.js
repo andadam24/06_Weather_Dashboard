@@ -170,9 +170,9 @@ var selectRecent = function(event) {
 };
 
 var displayTemp = function(element, temperature) {
-    var tempEl = document.querySelector(element);
+    var temp = document.querySelector(element);
     var elementText = Math.round(temperature);
-    tempEl.textContent = elementText;
+    temp.textContent = elementText;
 };
 
 loadCities();
