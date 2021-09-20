@@ -22,7 +22,7 @@ var formHandler = function(event) {
 };
 
 var coordinates = function(city) {
-    var currentWeatherApi = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
+    var currentWeatherApi = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
 
     fetch(currentWeatherApi).then(function(response) {
         if (response.ok) {
@@ -48,7 +48,7 @@ var coordinates = function(city) {
 };
 
 var cityForecast = function(city, lon, lat) {
-    var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&appid=${apiKey}`;
+    var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly,alerts&appid=${apiKey}`;
     fetch(oneCallApi).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
