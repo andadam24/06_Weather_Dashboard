@@ -72,8 +72,8 @@ var temperature = function(element, temperature) {
 
 var currentForecast = function(forecast) {
     
-    var forecast = document.querySelector('.city-forecast');
-    forecast.classList.remove('hide');
+    var getForecast = document.querySelector('.city-forecast');
+    getForecast.classList.remove('hide');
 
     var weatherIcon = document.querySelector('#today-icon');
     var currentIcon = forecast.current.weather[0].icon;
@@ -167,7 +167,13 @@ var selectRecent = function(event) {
     var clickedCity = event.target.getAttribute('value');
 
     coordinates(clickedCity);
-}
+};
+
+var displayTemp = function(element, temperature) {
+    var tempEl = document.querySelector(element);
+    var elementText = Math.round(temperature);
+    tempEl.textContent = elementText;
+};
 
 loadCities();
 cityBtn.addEventListener('click', formHandler)
