@@ -21,5 +21,8 @@ This dashboard is created using OperWeather API. It allows you to search cities 
 * THEN I am again presented with current and future conditions for that city
 
 ## Image:
+https://drive.google.com/file/d/1A8frHP97RVp9QEVujvAWBPncgdcBQo-3/view
 
 ## Links:
+https://github.com/andadam24/06_Weather_Dashboard
+https://andadam24.github.io/06_Weather_Dashboard/ 
